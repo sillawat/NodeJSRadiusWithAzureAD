@@ -5,10 +5,19 @@ var AuthenticationContext  = require('adal-node').AuthenticationContext;
 var fs = require('fs');
 var https = require('https');
 
+var secretmessage = "00000000";
+var authorityHostUrl = 'https://login.windows.net';
+var tenant = 'YOUR Azure Domain Here';
+var authorityUrl = authorityHostUrl + '/' + tenant;
+var clientId = 'CLIENT ID Here';
+var resource = '00000002-0000-0000-c000-000000000000';
+var radiusServerPort = 1645;
+
+
  
 function RadiusServer(settings) {
     this.config = settings || {};
-    this.port = this.config.port || 1645;
+    this.port = this.config.port || radiusServerPort;
     this.secret = this.config.secret || "";
     this.server = null;
  
@@ -41,19 +50,7 @@ RadiusServer.prototype.start = function () {
                 // get user/password from attributes
                 var username = packet.attributes['User-Name'];
                 var password = packet.attributes['User-Password'];
- 
-                // verify credentials, make calls to 3rd party services, then set RADIUS response
-                // var responseCode = self.ACCESS_DENIED;
-                // if (username == "test" && password == "test") {
-                    // responseCode = self.ACCESS_ACCEPT;
-                // }
-				
-				var authorityHostUrl = 'https://login.windows.net';
-				var tenant = 'sillawatmycostech.onmicrosoft.com';
-				var authorityUrl = authorityHostUrl + '/' + tenant;
-				var clientId = '83f3ce0c-f50c-4838-8975-97b5e411d7fe';
-				var resource = '00000002-0000-0000-c000-000000000000';
-				
+
 
 				var context = new AuthenticationContext(authorityUrl);
 
@@ -100,5 +97,5 @@ function ReplyServerResponse(responseCode, username, packet, listener, rinfo)
 	});
 };
  
-var rServer = new RadiusServer({ port: 1645, secret: "MySecret" });
+var rServer = new RadiusServer({ port: radiusServerPort, secret: secretmessage });
 rServer.start();
