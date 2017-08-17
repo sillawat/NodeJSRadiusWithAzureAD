@@ -1,0 +1,14 @@
+{
+  "name": "SimpleRadiusServer",
+  "version": "1.0.0",
+  "description": "SimpleRadiusServer",
+  "main": "server.js",
+    "author": {
+        "name": "josh santomieri",
+        "email": "joshs@santsys.com"
+    },
+    "dependencies": {
+        "dgram": "^1.0.1",
+        "radius": "^1.1.3"
+    }
+}
